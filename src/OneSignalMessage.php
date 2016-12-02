@@ -27,6 +27,9 @@ class OneSignalMessage
     /** @var array */
     protected $webButtons = [];
 
+    /** @var array */
+    protected $options = [];
+
     /**
      * @param string $body
      *
@@ -145,6 +148,21 @@ class OneSignalMessage
     }
 
     /**
+     * Set additional option.
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setOption($key, $value)
+    {
+        $this->options[$key] = $value;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function toArray()
@@ -159,7 +177,7 @@ class OneSignalMessage
             'chrome_icon' => $this->icon,
             'adm_small_icon' => $this->icon,
             'small_icon' => $this->icon,
-        ];
+            ] + $this->options;
 
         foreach ($this->data as $data => $value) {
             Arr::set($message, 'data.'.$data, $value);
